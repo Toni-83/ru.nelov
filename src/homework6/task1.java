@@ -1,9 +1,6 @@
 package homework6;
 
-
-public class task1 {
-
-    public static class Human {
+    class Human {
         public int age;
         public Sex sex;
         String name;
@@ -24,7 +21,7 @@ public class task1 {
         woman
     }
 
-    static class Student extends Human {
+    class Student extends Human {
         int cours;
         int group;
 
@@ -43,7 +40,7 @@ public class task1 {
                     " on cours: " + cours + ".");
         }
     }
-    static class UniversityStudents{
+    class UniversityStudents{
         Student[][][] students = new Student[4][5][10];
         public void printUniversityStudents() {
             for (int i = 0; i < students.length; i++) {
@@ -57,7 +54,7 @@ public class task1 {
             }
         }
     }
-
+public class task1{
     public static void main(String[] args) {
        UniversityStudents universitystudents = new UniversityStudents();
        universitystudents.students[1][1][1] = new Student("Toni", Sex.man, 18, 1, 1);
