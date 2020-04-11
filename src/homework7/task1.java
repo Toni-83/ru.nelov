@@ -71,9 +71,9 @@ public class task1 {
     public static void main(String[] args) {
         PriceList priceList = new PriceList();
         Choice choice = new Choice();
+        Verification verification= new Verification();
         priceList.PriceList();
         choice.Choice(priceList);
-        Verification verification= new Verification();
         verification.verification(priceList,choice);
     }
 }
