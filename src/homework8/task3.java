@@ -2,7 +2,7 @@ package homework8;
 
 // Подсчет запущенных экземпляров класса.
 class MyCalc {
-    private static int calc;
+    private int calc;
     public MyCalc () {
         calc++;
     }

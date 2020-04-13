@@ -55,11 +55,14 @@ package homework6;
         }
     }
 public class task1{
+        static char sec = 'C';
     public static void main(String[] args) {
        UniversityStudents universitystudents = new UniversityStudents();
        universitystudents.students[1][1][1] = new Student("Toni", Sex.man, 18, 1, 1);
        universitystudents.students[2][1][1] = new Student("Katty", Sex.woman, 28, 2, 1);
        universitystudents.printUniversityStudents();
+
+       System.out.println(sec);
 
        }
 
