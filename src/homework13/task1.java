@@ -38,13 +38,8 @@ enum ChildLiceFood{
     }
 }
 class FoodIsBad extends Exception {
-    String massage;
     public FoodIsBad(String massage){
-        this.massage=massage;
-    }
-    @Override
-    public String toString(){
-        return massage;
+        super(massage);
     }
 }
 class Child{
@@ -70,7 +65,7 @@ public class task1 {
         try {
             child.childtaste(in);
         } catch (FoodIsBad foodIsBad) {
-        System.out.println(foodIsBad);
+        System.out.println(foodIsBad.getMessage());
         }
 
     }
