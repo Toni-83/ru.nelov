@@ -1,5 +1,6 @@
 package homework13;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -43,15 +44,18 @@ class FoodIsBad extends Exception {
     }
 }
 class Child{
-    String childtaste(String food) throws FoodIsBad {
+    void childtaste(String food) throws FoodIsBad {
         try {
-            for (int i = 0; i < ChildLiceFood.values().length; i++){
-                if (food.toLowerCase().equals(ChildLiceFood.values()[i].toString().toLowerCase()) == true) {
-                    System.out.println("Было очень вкусно.");
-                }
+            if (Arrays.toString(ChildLiceFood.values()).toLowerCase().contains(food.toLowerCase()) == true) {
+                System.out.println("Мне понравилось, я очень люблю "+food+".");
+            }else {
+                throw new FoodIsBad("Ребенок не любит "+food+".");
             }
-        } finally {
-            throw new FoodIsBad("Спасибо Мамочка.");
+
+        } catch (FoodIsBad e) {
+            throw e;
+        } finally{
+             System.out.println("Спасибо Мамочка.");
         }
     }
 }
@@ -64,8 +68,9 @@ public class task1 {
         String test;
         try {
             child.childtaste(in);
-        } catch (FoodIsBad foodIsBad) {
-        System.out.println(foodIsBad.getMessage());
+            System.out.println("Мама похвалила ребенка.");
+        } catch (FoodIsBad e) {
+        System.out.println("Мама расстроина из-за испорченного настроения ребенак: "+e.getMessage());
         }
 
     }
