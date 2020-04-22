@@ -51,7 +51,7 @@ class PrintDir{
 public class task1 {
     public static void main(String[] args) {
         Dir dir = new Dir();
-        System.out.print("Введите путь к  каталогу: ");
+        System.out.print("Введите путь к каталогу, обязательно в конце строки долженбыть \"\\\": ");
         String in = new Scanner(System.in).nextLine();
         System.out.print("Введите глубену вложенности: ");
         int l = new Scanner(System.in).nextInt();
