@@ -5,21 +5,19 @@ import java.util.Scanner;
 
 class Dir {
     public void listDir(String way, int l, int c) throws NullPointerException{
-        if (l>-1){
             File[] list;
             list = new File(way).listFiles();
             try {
                 for (int i=0;i<list.length;i++){
                     PrintNam.printNam(list[i].toString().substring(list[i].toString().lastIndexOf("\\")),c);
                     task1.calc+=1;
-                    if (list[i].isDirectory()) {
+                    if (list[i].isDirectory()&&(l>0)) {
                     listDir(list[i].toString(),(l-1), c+1);
                     }
                 }
                 } catch (NullPointerException e){
                     PrintNam.printNam("Объект является ссылкой.",c);
                 }
-        }
     }
    public void listDir(String way, int c) throws NullPointerException{
             File[] list;
