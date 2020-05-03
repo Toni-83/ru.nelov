@@ -14,7 +14,7 @@ class Book implements Serializable{
         this.data=data;
     }
     public void printBook () {
-        System.out.printf("Название книги: %s\nгод выпуска: %s\tавтор: %s.",name,data,author);
+        System.out.printf("Название книги: %s\nгод выпуска: %s\tавтор: %s.\n",name,data,author);
     }
 }
 class Library implements Serializable{
@@ -40,17 +40,20 @@ class Library implements Serializable{
         int ii = 0;
         Scanner input = new Scanner(System.in);
         do {
-            for (int i=0;i<5;i++){
+            for (int i=0;(i<5&&i+ii<library.size());i++){
+                System.out.print((i+1+ii)+". ");
                 library.get(i+ii).printBook();
             }
-            if (input.nextLine()==null) break;
+            System.out.println("Для продолжения введите любое число, или введите 0 для прекращения вывода списка.");
+            String inp = input.nextLine();
+            if (Integer.parseInt(inp)==0) break;
             ii+=5;
         }while (ii<library.size());
     }
     public boolean deleteBookFromList (Library libraryFile) throws IOException{
         this.library = libraryFile.library;
-        System.out.print("Для удаления элемента нажмите Enter, для завершения удаления элементов введите \"Exit\"." +
-                "\n Для продолжения выбора введите любое значение: ");
+        System.out.print("Для удаления элемента введите 0, для завершения удаления элементов введите \"Exit\"." +
+                "\n Для продолжения выбора введите любое число: ");
         int i = 0;
         Scanner input = new Scanner(System.in);
         do {
@@ -58,7 +61,7 @@ class Library implements Serializable{
             library.get(i).printBook();
             String in = input.toString();
             if (in.equals("Exit")) break;
-            if (in==null){
+            if (Integer.parseInt(in)==0){
                 System.out.println("Введите название книги: ");
                 String name = input.nextLine();
                 System.out.println("Введите автора: ");
@@ -74,8 +77,8 @@ class Library implements Serializable{
     }
     public boolean changeStringBook(Library libraryFile) throws IOException{
         this.library = libraryFile.library;
-        System.out.print("Для изменения элемента нажмите Enter, для завершения изменения элементов введите \"Exit\"." +
-                "\n Для продолжения выбора введите любое значение: ");
+        System.out.print("Для изменения элемента нажмите 0, для завершения изменения элементов введите \"Exit\"." +
+                "\n Для продолжения выбора введите любое число: ");
         int i = 0;
         Scanner inout = new Scanner(System.in);
         do {
@@ -83,7 +86,7 @@ class Library implements Serializable{
             library.get(i).printBook();
             String in = inout.toString();
             if (in.equals("Exit")) break;
-            if (in==null){
+            if (Integer.parseInt(in)==0) break;{
                 library.remove(library.get(i));
             }
         }while (i<library.size());
