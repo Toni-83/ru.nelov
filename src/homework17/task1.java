@@ -20,7 +20,7 @@ class Book implements Serializable{
         this.data=data;
     }
     public void printBook () {
-        System.out.printf("Название книги: %s\nгод выпуска: %s\tавтор: %s.",name,author,data);
+        System.out.printf("Название книги: %s\nгод выпуска: %s\tавтор: %s.",name,data,author);
     }
 }
 class OutLibrary {
@@ -36,10 +36,10 @@ class InputLibrary {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream("Library.txt"));
             int ii=0;
             Scanner input = new Scanner(System.in);
-            while (in.read()!=-1){
+            while (in.read()==-1){
                 for (int i = 0; i<5; i++) {
                     Book book = (Book) in.readObject();
-                    System.out.print(i+1+ii);
+                    System.out.print(i+1+ii+". ");
                     book.printBook();
                 }
                 System.out.print("Нажмите Enter для продолжения вывода списка или любую клавишу для окончания.");
@@ -47,7 +47,9 @@ class InputLibrary {
                 ii+=5;
             }
             in.close();
-        } catch (IOException e) {
+        }catch (EOFException e){
+
+        }catch (IOException e) {
             System.out.println("Файл библиотеки отсутствует.");
         }
     }
@@ -88,6 +90,7 @@ class ChangeLibrary {
 public class task1 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         Scanner input = new Scanner(System.in);
+        Scanner instr = new Scanner(System.in);
         InputLibrary library = new InputLibrary();
         System.out.println("Домашняя библиотека.");
         int in;
@@ -97,12 +100,12 @@ public class task1 {
             in = input.nextInt();
             if (in==1){
                 System.out.println("Введите название книги: ");
-                String name1 = input.nextLine();
+                String name = instr.nextLine();
                 System.out.println("Введите автора: ");
-                String author = input.nextLine();
+                String author = instr.nextLine();
                 System.out.println("Введите дату издания книги: ");
-                String data = input.nextLine();
-                new OutLibrary(new Book(name1, author, data));
+                String data = instr.nextLine();
+                new OutLibrary(new Book(name, author, data));
                 System.out.println("Редактирование завершено успешно");
             }
 
