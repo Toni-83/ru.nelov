@@ -2,6 +2,7 @@ package homework19;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -10,39 +11,40 @@ import java.util.Scanner;
 class ReceiptOutFiles{
     LinkedList<String> outarray = new LinkedList<>();
     double sum = 0;
+    String name = null;
     public boolean createReceiptFile(File fileIn, File fileOut) throws IOException {
         if (!fileOut.canExecute()){
             try (BufferedReader ins = new BufferedReader(new FileReader(fileIn));
                  BufferedWriter ouf = new BufferedWriter(new FileWriter(fileOut))) {
-                while (ins.readLine()!=null){
-                    String name = null;
+                while ((name =  ins.readLine())!=null){
                     double aDouble=0;
                     int aInt=0;
                     double cost = 0;
                     double costs = 0;
-                    for (int i = 0; i<3;i++){
-                        if (i==0) name = ins.readLine();
-                        if (i==1){
-                            aDouble = Double.parseDouble(ins.readLine().replace(".",","));
+                    for (int i = 0; i<2;i++){
+                        if (i==0){
+                            aDouble = Double.parseDouble(ins.readLine());
                             if((aDouble-(int)aDouble)==0) aInt = (int)aDouble;
                         }
-                        if (i==2) cost = Double.parseDouble(ins.readLine().replace(".",","));
+                        if (i==1) cost = Double.parseDouble(ins.readLine());
                     }
-                    costs = new BigDecimal(Double.toString((aDouble*cost))).doubleValue();
+                    costs = new BigDecimal(Double.toString((aDouble*cost))).setScale(2, RoundingMode.HALF_UP).doubleValue();
                     sum+=costs;
                     if (aInt!=0){
-                        outarray.add(new Formatter().format("%1$-18.18s%2$6.6f x %3$6.6d%4$14.14s",name,cost,aInt,"="+Double.toString(costs)).toString());
+                        Formatter f = new Formatter().format("%1$-18s%2$6.2f x %3$6d%4$14s\n",name,cost,aInt,"="+Double.toString(costs));
+                        outarray.add(f.toString());
                     }else {
-                        outarray.add(new Formatter().format("%1$-18.18s%2$6.6f x %3$6.6f%4$14.14s",name,cost,aDouble,"="+Double.toString(costs)).toString());
+                        Formatter f = new Formatter().format("%1$-18s%2$6.2f x %3$6.3f%4$14s\n",name,cost,aDouble,"="+Double.toString(costs));
+                        outarray.add(f.toString());
                     }
                 }
-                ouf.write(new Formatter().format("%1$-18.18s%2$6.6s   %3$6.6s%4$14.14s","Наименование","Цена","Кол-во","Стоимость").toString());
-                ouf.write("===============================================");
+                ouf.write(new Formatter().format("%1$-18s%2$6s   %3$6s%4$14s","Наименование","Цена","Кол-во","Стоимость\n").toString());
+                ouf.write("===============================================\n");
                 for (String b:outarray){
                     ouf.write(b);
                 }
-                ouf.write("===============================================");
-                ouf.write(new Formatter().format("%1$-18.18s%2$29.29f","Итого:",sum).toString());
+                ouf.write("===============================================\n");
+                ouf.write(new Formatter().format("%1$-18s%2$29.2f\n","Итого:",sum).toString());
             }
         }else return false;
         return true;
