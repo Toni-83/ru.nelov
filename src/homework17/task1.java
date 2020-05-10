@@ -4,25 +4,38 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-class Book implements Serializable{
+class Book implements Serializable {
+    private static final long serialVersionUID = -3601013367680481060L;
     String name;
     String author;
     String data;
-    public void book (String name, String author, String data){
-        this.name=name;
-        this.author=author;
-        this.data=data;
+
+    public Book(String name, String author, String data) {
+        this.name = name;
+        this.author = author;
+        this.data = data;
     }
-    public void printBook () {
-        System.out.printf("Название книги: %s\nгод выпуска: %s\tавтор: %s.\n",name,data,author);
+
+    public void printBook() {
+        System.out.printf("Название книги: %s\nгод выпуска: %s\tавтор: %s.\n", name, data, author);
     }
 }
-class Library implements Serializable{
+
+class Library implements Serializable {
     private static final long serialVersionUID = 1L;
     LinkedList<Book> library = new LinkedList<>();
-    public boolean addBook (LinkedList library) throws IOException{
-        if (library!=null) this.library = library;
-        Book book = new Book();
+
+    public void addBook() throws IOException {
+        try {
+            library = File.readFilesLibrary().library;
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл не найден.\n" +
+                    "По завершениии операции файл с данными будет создан автоматически.");
+        } catch (ClassNotFoundException c) {
+            System.out.println("Файл библиотеки поврежден или имеет не верный формат данных.\n" +
+                    "По завершении операции данные в файле будут перезаписаны, для продолжения операции нажмите Enter или любое значение.");
+            if ((new Scanner(System.in).nextLine()) != null) return;
+        }
         Scanner input = new Scanner(System.in);
         System.out.println("Добавление книги в список библиотеки.");
         System.out.println("Введите название книги: ");
@@ -31,80 +44,120 @@ class Library implements Serializable{
         String author = input.nextLine();
         System.out.println("Введите дату издания книги: ");
         String data = input.nextLine();
-        book.book(name,author,data);
-        this.library.add(this.library.size(),book);
-        return File.writeFilesLibrary(Library.this);
+        Book book = new Book(name, author, data);
+        this.library.add(this.library.size(), book);
+        if (File.writeFilesLibrary(Library.this)) {
+            System.out.println("Данные сохранены успешно.");
+        }
     }
-    public void printListBook () throws IOException, ClassNotFoundException{
-        library = File.readFilesLibrary().library;
+
+    public void printListBook() throws IOException {
+        try {
+            library = File.readFilesLibrary().library;
+        } catch (Exception e) {
+            addBook();
+            return;
+        }
         int ii = 0;
         Scanner input = new Scanner(System.in);
         do {
-            for (int i=0;(i<5&&i+ii<library.size());i++){
-                System.out.print((i+1+ii)+". ");
-                library.get(i+ii).printBook();
+            for (int i = 0; (i < 5 && (i + ii) < library.size()); i++) {
+                System.out.print((i + 1 + ii) + ". ");
+                library.get(i + ii).printBook();
+                if (library.size() == (i + ii + 1)) {
+                    System.out.println("================================================================\\n" +
+                            "Конец списка книг.\\n");
+                    return;
+                }
             }
+
             System.out.println("Для продолжения введите любое число, или введите 0 для прекращения вывода списка.");
             String inp = input.nextLine();
-            if (Integer.parseInt(inp)==0) break;
-            ii+=5;
-        }while (ii<library.size());
+            if (Integer.parseInt(inp) == 0) break;
+            ii += 5;
+        } while (ii < library.size());
     }
-    public boolean deleteBookFromList (Library libraryFile) throws IOException{
-        this.library = libraryFile.library;
+
+    public void deleteBookFromList() throws IOException {
+        try {
+            library = File.readFilesLibrary().library;
+        } catch (Exception e) {
+            addBook();
+            return;
+        }
         System.out.print("Для удаления элемента введите 0, для завершения удаления элементов введите \"Exit\"." +
                 "\n Для продолжения выбора введите любое число: ");
         int i = 0;
         Scanner input = new Scanner(System.in);
         do {
-            System.out.print((i+1)+". ");
+            System.out.print((i + 1) + ". ");
             library.get(i).printBook();
             String in = input.toString();
             if (in.equals("Exit")) break;
-            if (Integer.parseInt(in)==0){
+            if (Integer.parseInt(in) == 0) {
                 System.out.println("Введите название книги: ");
                 String name = input.nextLine();
                 System.out.println("Введите автора: ");
                 String author = input.nextLine();
                 System.out.println("Введите дату издания книги: ");
                 String data = input.nextLine();
-                library.get(i).name=name;
-                library.get(i).author=author;
-                library.get(i).data=data;
+                library.get(i).name = name;
+                library.get(i).author = author;
+                library.get(i).data = data;
             }
-        }while (i<library.size());
-        return File.writeFilesLibrary(Library.this);
+        } while (i < library.size());
+        if (File.writeFilesLibrary(Library.this)) {
+            System.out.println("Изменения сохранены успешно.");
+        }
     }
-    public boolean changeStringBook(Library libraryFile) throws IOException{
-        this.library = libraryFile.library;
+
+    public void changeStringBook() throws IOException {
+        try {
+            library = File.readFilesLibrary().library;
+        } catch (Exception e) {
+            addBook();
+            return;
+        }
         System.out.print("Для изменения элемента нажмите 0, для завершения изменения элементов введите \"Exit\"." +
                 "\n Для продолжения выбора введите любое число: ");
         int i = 0;
         Scanner inout = new Scanner(System.in);
         do {
-            System.out.print((i+1)+". ");
+            System.out.print((i + 1) + ". ");
             library.get(i).printBook();
             String in = inout.toString();
             if (in.equals("Exit")) break;
-            if (Integer.parseInt(in)==0) break;{
+            if (Integer.parseInt(in) == 0) break;
+            {
                 library.remove(library.get(i));
             }
-        }while (i<library.size());
-        return File.writeFilesLibrary(Library.this);
+        } while (i < library.size());
+        if (File.writeFilesLibrary(Library.this)) {
+            System.out.println("Изменения сохранены успешно.");
+        }
     }
 }
+
 class File {
-    public static Library readFilesLibrary () throws IOException, ClassNotFoundException{
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream("Library.txt"));
-        Library library = (Library) in.readObject();
-        in.close();
-        return library;
+    public static Library readFilesLibrary() throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Library.txt"))) {
+            Library library = (Library) in.readObject();
+            return library;
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException();
+        } catch (IOException e) {
+            throw new IOException();
+        }
+
     }
-    public static boolean writeFilesLibrary (Library output) throws IOException{
-        ObjectOutputStream ou = new ObjectOutputStream(new FileOutputStream("Library.txt"));
-        ou.writeObject(output);
-        ou.close();
-        return true;
+
+    public static boolean writeFilesLibrary(Library output) throws IOException {
+        try (ObjectOutputStream ou = new ObjectOutputStream(new FileOutputStream("Library.txt"))) {
+            ou.writeObject(output);
+            return true;
+        }
+
+
     }
 }
 
@@ -121,44 +174,19 @@ public class task1 {
                     "Введите \"Exit\" для завершения программы.");
             String inputs = instr.nextLine();
             if (inputs.equalsIgnoreCase("exit")) break;
-                int input = Integer.parseInt(inputs);
+            int input = Integer.parseInt(inputs);
             switch (input) {
                 case 1:
-                    try {
-                       library.printListBook();
-                    } catch (IOException e){
-                        System.out.println("Файл не найден.\n" +
-                                "Выберите пункт 2 и внесите данные в библиотеку, по завершении файл с данными будет создан автоматически.");
-                    }
+                    library.printListBook();
                     break;
-                case 2 :
-                    try {
-                        if (library.addBook(File.readFilesLibrary().library))
-                            System.out.println("Редактирование записей произведено успешно.");
-                    }catch (IOException e) {
-                        System.out.println("Файл не найден.\n" +
-                                "По завершениии операции создания библиотеки файл будет создан автоматически.");
-                        if(library.addBook(null))
-                            System.out.println("Создание библиотеки произведено успешно.");
-                    }
+                case 2:
+                    library.addBook();
                     break;
-                case 3 :
-                    try {
-                        if(library.deleteBookFromList(File.readFilesLibrary()))
-                            System.out.println("Удаление записей произведено успешно.");
-                    }catch (IOException e){
-                        System.out.println("Файл не найден.\n" +
-                                "Выберите пункт 2 и внесите данные в библиотеку, по завершении файл с данными будет создан автоматически.");
-                    }
+                case 3:
+                    library.deleteBookFromList();
                     break;
-                case 4 :
-                    try {
-                        if (library.changeStringBook(File.readFilesLibrary()))
-                            System.out.println("Редактирование записей произведено успешно.");
-                    } catch (IOException e) {
-                        System.out.println("Файл не найден.\n" +
-                                "Выберите пункт 2 и внесите данные в библиотеку, по завершении файл с данными будет создан автоматически.");
-                    }
+                case 4:
+                    library.changeStringBook();
                 default:
                     System.out.println("Значение введено не верно, попробуйте снова");
                     break;
