@@ -1,5 +1,4 @@
-package homework17;
-
+package homework17_rebuild;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -25,17 +24,10 @@ class Library implements Serializable {
     private static final long serialVersionUID = 1L;
     LinkedList<Book> library = new LinkedList<>();
 
-    public void addBook() throws IOException {
-        try {
-            library = File.readFilesLibrary().library;
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден.\n" +
-                    "По завершениии операции файл с данными будет создан автоматически.");
-        } catch (ClassNotFoundException c) {
-            System.out.println("Файл библиотеки поврежден или имеет не верный формат данных.\n" +
-                    "По завершении операции данные в файле будут перезаписаны, для продолжения операции нажмите Enter или любое значение.");
-            if ((new Scanner(System.in).nextLine()) != null) return;
-        }
+    public void addBook() throws IOException, ClassNotFoundException {
+        library = File.readFilesLibrary().library;
+        //if (library!=null) this.library = library;
+        //Book book = new Book();
         Scanner input = new Scanner(System.in);
         System.out.println("Добавление книги в список библиотеки.");
         System.out.println("Введите название книги: ");
@@ -46,31 +38,22 @@ class Library implements Serializable {
         String data = input.nextLine();
         Book book = new Book(name, author, data);
         this.library.add(this.library.size(), book);
-        if (File.writeFilesLibrary(Library.this)) {
-            System.out.println("Данные сохранены успешно.");
-        }
+        File.writeFilesLibrary(Library.this);
     }
 
-    public void printListBook() throws IOException {
-        try {
-            library = File.readFilesLibrary().library;
-        } catch (Exception e) {
-            addBook();
+    public void printListBook() throws IOException, ClassNotFoundException {
+        library = File.readFilesLibrary().library;
+        if (library.isEmpty()){
             return;
         }
+
         int ii = 0;
         Scanner input = new Scanner(System.in);
         do {
-            for (int i = 0; (i < 5 && (i + ii) < library.size()); i++) {
+            for (int i = 0; (i < 5 && i + ii < library.size()); i++) {
                 System.out.print((i + 1 + ii) + ". ");
                 library.get(i + ii).printBook();
-                if (library.size() == (i + ii + 1)) {
-                    System.out.println("================================================================\\n" +
-                            "Конец списка книг.\\n");
-                    return;
-                }
             }
-
             System.out.println("Для продолжения введите любое число, или введите 0 для прекращения вывода списка.");
             String inp = input.nextLine();
             if (Integer.parseInt(inp) == 0) break;
@@ -78,13 +61,8 @@ class Library implements Serializable {
         } while (ii < library.size());
     }
 
-    public void deleteBookFromList() throws IOException {
-        try {
-            library = File.readFilesLibrary().library;
-        } catch (Exception e) {
-            addBook();
-            return;
-        }
+    public void deleteBookFromList() throws IOException, ClassNotFoundException {
+        this.library = File.readFilesLibrary().library;
         System.out.print("Для удаления элемента введите 0, для завершения удаления элементов введите \"Exit\"." +
                 "\n Для продолжения выбора введите любое число: ");
         int i = 0;
@@ -106,18 +84,11 @@ class Library implements Serializable {
                 library.get(i).data = data;
             }
         } while (i < library.size());
-        if (File.writeFilesLibrary(Library.this)) {
-            System.out.println("Изменения сохранены успешно.");
-        }
+        File.writeFilesLibrary(Library.this);
     }
 
-    public void changeStringBook() throws IOException {
-        try {
-            library = File.readFilesLibrary().library;
-        } catch (Exception e) {
-            addBook();
-            return;
-        }
+    public void changeStringBook() throws IOException, ClassNotFoundException {
+        this.library = File.readFilesLibrary().library;
         System.out.print("Для изменения элемента нажмите 0, для завершения изменения элементов введите \"Exit\"." +
                 "\n Для продолжения выбора введите любое число: ");
         int i = 0;
@@ -132,36 +103,30 @@ class Library implements Serializable {
                 library.remove(library.get(i));
             }
         } while (i < library.size());
-        if (File.writeFilesLibrary(Library.this)) {
-            System.out.println("Изменения сохранены успешно.");
-        }
+        File.writeFilesLibrary(Library.this);
     }
 }
 
 class File {
-    public static Library readFilesLibrary() throws IOException, ClassNotFoundException {
+    public static Library readFilesLibrary() throws ClassNotFoundException, IOException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Library.txt"))) {
-            return (Library) in.readObject();
+            Library library = (Library) in.readObject();
+            return library;
         } catch (FileNotFoundException e) {
-            throw new FileNotFoundException();
-        } catch (IOException e) {
-            throw new IOException();
+            System.out.println("Файл не найден.\n" +
+                    "По завершении операции файл с данными будет создан автоматически.");
+            return new Library();
         }
-
     }
 
-    public static boolean writeFilesLibrary(Library output) throws IOException {
+    public static void writeFilesLibrary(Library output) throws IOException {
         try (ObjectOutputStream ou = new ObjectOutputStream(new FileOutputStream("Library.txt"))) {
             ou.writeObject(output);
-            return true;
         }
-
-
     }
 }
-
-public class task1 {
-    public static void main(String[] args) throws IOException {
+public class task1_rebuild1 {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         Scanner instr = new Scanner(System.in);
         Library library = new Library();
         while (true) {
@@ -180,12 +145,17 @@ public class task1 {
                     break;
                 case 2:
                     library.addBook();
+                    System.out.println("Редактирование записей произведено успешно.");
+
                     break;
                 case 3:
                     library.deleteBookFromList();
+                    System.out.println("Удаление записей произведено успешно.");
                     break;
                 case 4:
                     library.changeStringBook();
+                    System.out.println("Редактирование записей произведено успешно.");
+
                 default:
                     System.out.println("Значение введено не верно, попробуйте снова");
                     break;
