@@ -28,7 +28,6 @@ class ReceiptOutFiles{
                         }
                         if (i==1) cost = Double.parseDouble(ins.readLine());
                     }
-                    costs = new BigDecimal(Double.toString((aDouble*cost))).setScale(2, RoundingMode.HALF_UP).doubleValue();
                     sum+=costs;
                     if (aInt!=0){
                         Formatter f = new Formatter().format("%1$-18s%2$6.2f x %3$6d%4$14s\n",name,cost,aInt,"="+Double.toString(costs));
