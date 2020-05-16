@@ -36,15 +36,15 @@ public class PersonComparator {
                 if (i==ii)break;
                 switch (new Comparator().Comparator(persons[i], persons[ii])) {
                     case 1:
-                        System.out.println("элемент " + i + " больще элемента " + ii + ".\n" +
+                        System.out.println("элемент " + (i+1) + " больще элемента " + (ii+1) + ".\n" +
                                 persons[i].name + " возраст " + persons[i].eag + ">" + persons[ii].name + " возраст " + persons[ii].eag + ".");
                         break;
                     case -1:
-                        System.out.println("элемент " + ii + " больще элемента " + i + ".\n" +
+                        System.out.println("элемент " + (ii+1) + " больще элемента " + (i+1) + ".\n" +
                                 persons[i].name + " возраст " + persons[i].eag + "<" + persons[ii].name + " возраст " + persons[ii].eag + ".");
                         break;
                     case 0:
-                        System.out.println("элемент " + i + " равен элементу " + ii + ".\n" +
+                        System.out.println("элемент " + (i+1) + " равен элементу " + (ii+1) + ".\n" +
                                 persons[i].name + " возраст " + persons[i].eag + "=" + persons[ii].name + " возраст " + persons[ii].eag + ".");
                         break;
                 }
