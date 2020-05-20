@@ -14,10 +14,7 @@ class Product {
     public String getProduct() {
         return product;
     }
-    @Override
-    public String toString(){
-        return product;
-    }
+
 }
 
 interface Basket {
@@ -34,7 +31,7 @@ interface Basket {
     int getProductQuantity(String product);
 }
 
-class WevBasket implements Basket {
+class WebBasket implements Basket {
     LinkedList<Product> webBasket = new LinkedList<>();
 
     @Override
@@ -46,7 +43,7 @@ class WevBasket implements Basket {
     public void removeProduct(String product) {
         Iterator<Product> prod = webBasket.iterator();
         while (prod.hasNext()) {
-            if (prod.next().equals(product)){
+            if (prod.next().equals(product)) {
                 prod.remove();
                 break;
             }
@@ -56,9 +53,9 @@ class WevBasket implements Basket {
     @Override
     public void updateProductQuantity(String product, int quantity) {
         ListIterator<Product> iter = (ListIterator<Product>) webBasket.iterator();
-        while (iter.hasNext()){
-            if (iter.next().product.equalsIgnoreCase(product)){
-                iter.set(new Product(product,quantity));
+        while (iter.hasNext()) {
+            if (iter.next().product.equalsIgnoreCase(product)) {
+                iter.set(new Product(product, quantity));
                 break;
             }
         }
@@ -81,9 +78,9 @@ class WevBasket implements Basket {
         Iterator<Product> iter = webBasket.iterator();
         Product prod;
         int quantity = -1;
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             prod = iter.next();
-            if(prod.product.equalsIgnoreCase(product)) {
+            if (prod.product.equalsIgnoreCase(product)) {
                 quantity = prod.quantity;
                 break;
             }
@@ -94,6 +91,27 @@ class WevBasket implements Basket {
 
 public class BasketWeb {
     public static void main(String[] args) {
+        WebBasket webBasket = new WebBasket();
+        webBasket.addProduct("Speakers", 25);
+        webBasket.addProduct("Phone", 150);
+        webBasket.addProduct("Photo Cam", 500);
+        webBasket.addProduct("Keyboard", 35);
+        printBasket(webBasket);
+        webBasket.removeProduct("Speakers");
+        webBasket.updateProductQuantity("Keyboard", 100);
+        printBasket(webBasket);
+        webBasket.clear();
+        printBasket(webBasket);
+    }
 
+    public static void printBasket(WebBasket webBasket) {
+        int sum = 0;
+        System.out.println("Name             Quantity\n=========================");
+        for (String s : webBasket.getProducts()) {
+            System.out.printf("Nme%-14s%8d\n", s, webBasket.getProductQuantity(s));
+            sum = (sum + webBasket.getProductQuantity(s));
+        }
+        if (sum != 0) System.out.printf("%-17s%8d\n", "Amount", sum);
+        else System.out.println("The Basket is empty.");
     }
 }
