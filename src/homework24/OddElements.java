@@ -12,7 +12,7 @@ class OddArray {
 
 public class OddElements {
     static Set<String> setStr = new HashSet<>();
-    static OddArray steOddArray = new OddArray();
+    static OddArray oddArray = new OddArray();
     public static void main(String[] args){
         setStr.add("foo");
         setStr.add("buzz");
@@ -22,9 +22,8 @@ public class OddElements {
         setStr.add("spoon");
         setStr.add("!");
         setStr.add("dude");
-        setStr = steOddArray.setArray(setStr);
+        setStr = oddArray.setArray(setStr);
         System.out.println(setStr.toString());
-
 
     }
 }
