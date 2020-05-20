@@ -5,13 +5,13 @@ import java.util.Set;
 
 class OddArray {
     public Set<String> setArray(Set<String> set){
-        set.removeIf(s -> s.toString().length() % 2 == 0);
+        set.removeIf(s -> s.length() % 2 == 0);
         return set;
     }
 }
 
 public class OddElements {
-    static Set<String> setStr = new HashSet<String>();
+    static Set<String> setStr = new HashSet<>();
     static OddArray steOddArray = new OddArray();
     public static void main(String[] args){
         setStr.add("foo");
