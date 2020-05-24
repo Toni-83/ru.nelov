@@ -6,6 +6,9 @@ import java.util.Set;
 class OddArray {
     public Set<String> setArray(Set<String> set){
         set.removeIf(s -> s.length() % 2 == 0);
+        System.out.println("===========================");
+        set.stream().filter(s -> s.charAt(2)=='w').forEach(System.out::println);
+        System.out.println("****************************");
         return set;
     }
 }
@@ -20,7 +23,7 @@ public class OddElements {
         setStr.add("fork");
         setStr.add("bort");
         setStr.add("spoon");
-        setStr.add("!");
+        setStr.add("!!!");
         setStr.add("dude");
         setStr = oddArray.setArray(setStr);
         System.out.println(setStr.toString());
