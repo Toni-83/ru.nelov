@@ -4,19 +4,21 @@ import java.util.Scanner;
 
 class IterationsMethod {
     public IterationsMethod(int in){
-        for (int i = 0;i<in;i+=i){
+        int ii = 1;
+        int a = 0;
+        for (int i = 0;i<=in;i=a){
             if (i!=0) System.out.print(", ");
             System.out.print(i);
-            if (i==0){
-                i=1;
-                System.out.print(", "+i);
-            }
+            a=i+ii;
+            ii=i;
         }
         System.out.println(".");
     }
 }
 class RecursionMethod {
     int i = 0;
+    int ii = 1;
+    int a = 0;
     public void recursionMethod(int in) {
         if (i>in){
             System.out.println(".");
@@ -24,10 +26,10 @@ class RecursionMethod {
         }
         if (i!=0) System.out.print(", ");
             System.out.print(i);
-            i+=i;
-        if (i==0){
-            i=1;
-        }
+        a=i+ii;
+        ii=i;
+        i=a;
+
         this.recursionMethod(in);
     }
 }
