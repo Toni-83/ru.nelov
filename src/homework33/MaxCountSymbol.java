@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class MaxCountSymbol {
-    static Scanner in = new Scanner(System.in);
-    static String st;
-    static Map<Character, Integer> sm = new HashMap<>();
-    public static void main(String[] args) {
+class CountSymbol {
+    Scanner in = new Scanner(System.in);
+    String st;
+    Map<Character, Integer> sm = new HashMap<>();
+    public void inputString () {
         System.out.print("Введите текст: ");
         st = in.nextLine();
         sm.put(st.charAt(0), 1);
@@ -19,8 +19,19 @@ public class MaxCountSymbol {
             }
             else sm.put(st.charAt(i),1);
         }
+    }
+    public void printResult () {
         for(Map.Entry<Character,Integer> entry : sm.entrySet()) if (entry.getValue() == Collections.max(sm.values()))
             System.out.println(entry.getKey()+"="+entry.getValue());
         System.out.println("Конец.");
+    }
+}
+
+
+public class MaxCountSymbol {
+    public static void main(String[] args) {
+        CountSymbol count = new CountSymbol();
+        count.inputString();
+        count.printResult();
     }
 }
