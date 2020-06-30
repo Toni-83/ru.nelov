@@ -1,11 +1,14 @@
 package homework27;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 class IterationsMethod {
     public IterationsMethod(int in){
         int ii = 1;
-        int a = 0;
+        int a;
         for (int i = 0;i<=in;i=a){
             if (i!=0) System.out.print(", ");
             System.out.print(i);
@@ -16,6 +19,8 @@ class IterationsMethod {
     }
 }
 class RecursionMethod {
+    LinkedList link=new LinkedList();
+    ArrayList list= new ArrayList();
     int i = 0;
     int ii = 1;
     int a = 0;
