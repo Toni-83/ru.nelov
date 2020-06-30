@@ -5,7 +5,7 @@ import java.util.Scanner;
 class PalendromString2 {
     Scanner in = new Scanner(System.in);
     String str;
-    public void verification2 (){
+    public void verification (){
         System.out.print("Введите строку: ");
         str = in.nextLine();
         StringBuffer stringBuffer = new StringBuffer (str);
