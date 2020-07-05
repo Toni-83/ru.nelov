@@ -10,7 +10,7 @@ class Connectors {
     private final String URL = "jdbc:postgresql://192.168.1.241:5432/library";
     private final String USER = "postgres";
     private final String PASSWORD = "Antuan_83";
-    public void createBD () {
+    private void createBD () {
         try (Connection connection = DriverManager.getConnection(URL_DB_ROOT, USER, PASSWORD); Statement statement = connection.createStatement()) {
             String sql = "CREATE DATABASE library\n" +
                     "    WITH \n" +
@@ -46,13 +46,24 @@ class Connectors {
             e.printStackTrace();
         }
     }
+    public void connect_DB (){
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD); Statement statement = connection.createStatement()){
+
+        }catch (SQLException e){
+            while (true){
+                this.createBD();
+                this.connect_DB();
+            }
+        }
+
+    }
 }
 
 public class LibrarysBD {
 
     public static void main(String[] args) {
         Connectors con = new Connectors();
-        con.createBD();
+        con.connect_DB();
 
     }
 }
