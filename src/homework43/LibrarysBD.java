@@ -9,7 +9,7 @@ class Connectors {
     private final String URL_DB_ROOT = "jdbc:postgresql://192.168.1.241:5432/";
     private final String URL = "jdbc:postgresql://192.168.1.241:5432/library";
     private final String USER = "postgres";
-    private final String PASSWORD = "Antuan_83";
+    private final String PASSWORD = "PASSWD";
     private void createBD () {
         try (Connection connection = DriverManager.getConnection(URL_DB_ROOT, USER, PASSWORD); Statement statement = connection.createStatement()) {
             String sql = "CREATE DATABASE library\n" +
